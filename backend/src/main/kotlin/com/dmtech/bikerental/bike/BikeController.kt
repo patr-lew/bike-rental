@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
-@RequestMapping("/bikerental")
-class BikeRentalController(var bikeRentalService: BikeRentalService) {
+@RequestMapping("/bikes")
+class BikeController(val bikeService: BikeService) {
 
-    @GetMapping("/bikes")
+    @GetMapping
     fun getBikes(): List<BikeDto> {
-        return bikeRentalService.getAllBikes()
+        return bikeService.getAllBikes()
     }
 
 }

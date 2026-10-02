@@ -1,6 +1,9 @@
 spring:
   application:
     name: bike-rental
+  mvc:
+    servlet:
+      path: /bikerental
   datasource:
     url: jdbc:h2:mem:testdb2
     driverClassName: org.h2.Driver

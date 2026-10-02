@@ -1,5 +1,6 @@
 package com.dmtech.bikerental.bike
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -19,11 +20,14 @@ import java.util.UUID
        allocationSize = 1
     )
     var id: Long? = null,
+
+    @Column(nullable = false, unique = true)
     var uuid: UUID = UUID.randomUUID(),
-    var manufacturer: String? = null,
+
+    var manufacturer: String = "",
     var rimSize: Int = 0,
     var frameSize: Int = 0,
-    var color: String? = null
+    var color: String = ""
 ) {
    override fun equals(other: Any?): Boolean {
       return other is Bike && other.uuid == this.uuid;

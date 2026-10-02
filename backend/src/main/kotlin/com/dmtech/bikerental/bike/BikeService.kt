@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
 
 @Service
-class BikeRentalService(var bikeRepository: BikeRepository) {
+class BikeService(val bikeRepository: BikeRepository) {
 
     /**
      * Retrieves all bikes from the repository.

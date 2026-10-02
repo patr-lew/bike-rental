@@ -1,28 +1,32 @@
 package com.dmtech.bikerental.bike
 
+import jakarta.persistence.LockModeType
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Query
-import java.time.Instant
 import java.time.OffsetDateTime
+import java.util.UUID
 
 interface BikeRepository: JpaRepository<Bike, Long> {
 
-
     @Query("""
-        select
-            bike.uuid as uuid,
-            bike.manufacturer as manufacturer,
-            bike.rimSize as rimSize,
-            bike.frameSize as frameSize,
-            bike.color as color,
-            case when booking.id is not null then true else false end as rented,
-            booking.bookedBy as rentedBy
-        from Bike bike
-        left join Booking booking
-            on booking.bike = bike
-            and booking.bookingStart <= :now
-            and booking.bookingEnd is null
-        """
+    select new com.dmtech.bikerental.bike.BikeDto(
+        bike.uuid,
+        bike.manufacturer,
+        bike.rimSize,
+        bike.frameSize,
+        bike.color,
+        case when booking.id is not null then true else false end,
+        booking.bookedBy
     )
+    from Bike bike
+    left join Booking booking
+        on booking.bike = bike
+        and booking.bookingStart <= :now
+        and booking.bookingEnd is null
+""")
     fun findAllBikesWithAvailability(now: OffsetDateTime): List<BikeDto>
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    fun findBikeByUuid(uuid: UUID): Bike?
 }
