@@ -5,9 +5,11 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.Table
 import java.util.UUID
 
-@Entity(name = "bikes")
+@Entity
+@Table(name = "bikes")
  class Bike (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bike_seq")

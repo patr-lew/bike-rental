@@ -8,6 +8,6 @@ data class BikeDto(
     val rimSize: Int,
     val frameSize: Int,
     val color: String,
-    val isRented: Boolean,
+    val rented: Boolean,
     val rentedBy: String?
 )
