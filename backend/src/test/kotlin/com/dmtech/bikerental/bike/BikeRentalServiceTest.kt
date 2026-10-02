@@ -1,7 +1,6 @@
-import com.dmtech.bikerental.Bike
+package com.dmtech.bikerental.bike
+
 import com.dmtech.bikerental.BikeRentalApplication
-import com.dmtech.bikerental.BikeRentalService
-import com.dmtech.bikerental.BikeRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

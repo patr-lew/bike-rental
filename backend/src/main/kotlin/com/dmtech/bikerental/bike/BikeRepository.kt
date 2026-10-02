@@ -1,4 +1,4 @@
-package com.dmtech.bikerental
+package com.dmtech.bikerental.bike
 
 import org.springframework.data.jpa.repository.JpaRepository
 

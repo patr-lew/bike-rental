@@ -1,4 +1,4 @@
-package com.dmtech.bikerental
+package com.dmtech.bikerental.bike
 
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
