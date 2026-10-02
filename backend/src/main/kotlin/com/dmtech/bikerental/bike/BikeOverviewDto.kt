@@ -2,7 +2,7 @@ package com.dmtech.bikerental.bike
 
 import java.util.UUID
 
-data class BikeDto(
+data class BikeOverviewDto(
     val uuid: UUID,
     val manufacturer: String,
     val rimSize: Int,

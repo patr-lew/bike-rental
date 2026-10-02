@@ -11,7 +11,7 @@ class BikeService(val bikeRepository: BikeRepository) {
      *
      * @return A list of all bikes.
      */
-    fun getAllBikes(): List<BikeDto> {
+    fun getAllBikes(): List<BikeOverviewDto> {
         return bikeRepository.findAllBikesWithAvailability(OffsetDateTime.now())
     }
 }

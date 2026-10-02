@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class BikeController(val bikeService: BikeService) {
 
     @GetMapping
-    fun getBikes(): List<BikeDto> {
+    fun getBikes(): List<BikeOverviewDto> {
         return bikeService.getAllBikes()
     }
 

@@ -10,7 +10,7 @@ import java.util.UUID
 interface BikeRepository: JpaRepository<Bike, Long> {
 
     @Query("""
-    select new com.dmtech.bikerental.bike.BikeDto(
+    select new com.dmtech.bikerental.bike.BikeOverviewDto(
         bike.uuid,
         bike.manufacturer,
         bike.rimSize,
@@ -25,7 +25,7 @@ interface BikeRepository: JpaRepository<Bike, Long> {
         and booking.bookingStart <= :now
         and booking.bookingEnd is null
 """)
-    fun findAllBikesWithAvailability(now: OffsetDateTime): List<BikeDto>
+    fun findAllBikesWithAvailability(now: OffsetDateTime): List<BikeOverviewDto>
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     fun findBikeByUuid(uuid: UUID): Bike?
