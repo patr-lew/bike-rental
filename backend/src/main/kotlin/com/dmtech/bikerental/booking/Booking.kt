@@ -32,7 +32,7 @@ class Booking (
     var createdAt: Instant = Instant.now(),
     var bookingStart: OffsetDateTime = OffsetDateTime.now(),
     var bookingEnd: OffsetDateTime? = null,
-    var bookedBy: String? = null,
+    var bookedBy: String
 ) {
     override fun equals(other: Any?): Boolean {
         return other is Booking && other.uuid == this.uuid;

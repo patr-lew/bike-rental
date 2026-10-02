@@ -12,14 +12,16 @@ import java.util.UUID
 class BookingService(val bikeRepository: BikeRepository, val bookingRepository: BookingRepository) {
 
     @Transactional
-    fun bookBikeIfAvailable(bikeId: UUID, username: String): Booking {
+    fun bookBikeIfAvailable(bikeId: UUID, username: String): BookingResultDto {
         val chosenBike = bikeRepository.findBikeByUuid(bikeId) ?: throw BikeNotFoundException(bikeId.toString())
         if (doesActiveBookingExist(chosenBike)) {
             throw BikeNotAvailableException(bikeId.toString())
         }
 
         val booking = Booking(bike = chosenBike, bookedBy = username)
-        return bookingRepository.save(booking)
+        bookingRepository.save(booking)
+
+        return BookingResultDto(booking.uuid, bikeId, chosenBike.manufacturer, username, )
     }
 
     private fun doesActiveBookingExist(bike: Bike): Boolean {

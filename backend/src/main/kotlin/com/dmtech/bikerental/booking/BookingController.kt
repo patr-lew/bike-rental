@@ -14,7 +14,7 @@ import java.net.URI
 class BookingController(val bookingService: BookingService) {
 
     @PostMapping
-    fun bookABike(@RequestBody request: BookingRequestDto): ResponseEntity<Booking> {
+    fun bookABike(@RequestBody request: BookingRequestDto): ResponseEntity<BookingResultDto> {
         val (bikeId, username) = request
 
         val createdBooking = bookingService.bookBikeIfAvailable(bikeId, username)
