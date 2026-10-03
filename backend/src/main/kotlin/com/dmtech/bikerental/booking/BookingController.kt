@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.net.URI
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
@@ -18,9 +18,14 @@ class BookingController(val bookingService: BookingService) {
         val (bikeId, username) = request
 
         val createdBooking = bookingService.bookBikeIfAvailable(bikeId, username)
+        val location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{bookingId}")
+            .buildAndExpand(createdBooking.uuid)
+            .toUri()
 
         return ResponseEntity
-            .created(URI.create("/booking/$createdBooking"))
+            .created(location)
             .body(createdBooking)
     }
 

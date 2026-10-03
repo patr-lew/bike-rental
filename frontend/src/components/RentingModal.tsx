@@ -1,6 +1,7 @@
 import { Bike } from "../models/Bike.ts";
 import { Modal } from "./Modal.tsx";
 import { ChangeEvent, useState } from "react";
+import { rentBike } from "../services/bikeApi.service.ts";
 
 type Props = {
   selectedBike: Bike | null;
@@ -19,8 +20,9 @@ export function RentingModal({ selectedBike, onClose }: Props) {
 
   const isFormValid = username !== "";
 
-  const handleFormSubmit = () => {
-    console.log("rented!");
+  const handleFormSubmit = async () => {
+    if (!selectedBike) return;
+    await rentBike({ userName: username, bikeId: selectedBike.id });
   };
 
   if (selectedBike === null) return null;

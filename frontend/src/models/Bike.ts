@@ -7,3 +7,13 @@ export interface Bike {
   rented: boolean;
   rentedBy: string;
 }
+
+export interface BikeResponse {
+  uuid: string;
+  manufacturer: string | null;
+  rimSize: number;
+  frameSize: number;
+  color: string | null;
+  rented: boolean;
+  rentedBy: string;
+}

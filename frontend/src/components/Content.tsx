@@ -1,5 +1,5 @@
 import { Bike } from "../models/Bike.ts";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getAllBikes } from "../services/bikeApi.service.ts";
 import { RentingModal } from "./RentingModal.tsx";
 
@@ -7,12 +7,17 @@ export function Content() {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
 
-  useEffect(() => {
+  const fetchBikes = useCallback(() => {
     getAllBikes().then((bikes) => setBikes(bikes));
-  }, []);
+  }, [setBikes]);
+
+  useEffect(() => {
+    fetchBikes();
+  }, [fetchBikes]);
 
   const handleRentPress = (bike: Bike) => {
     setSelectedBike(bike);
+    fetchBikes();
   };
 
   const handleModalClosing = () => {
