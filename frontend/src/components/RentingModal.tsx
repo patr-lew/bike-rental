@@ -1,14 +1,21 @@
 import { Bike } from "../models/Bike.ts";
 import { Modal } from "./Modal.tsx";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SubmitEventHandler, useState } from "react";
 import { rentBike } from "../services/bikeApi.service.ts";
 
 type Props = {
   selectedBike: Bike | null;
+  isOpen: boolean;
   onClose: () => void;
+  onBooking: () => void;
 };
 
-export function RentingModal({ selectedBike, onClose }: Props) {
+export function RentingModal({
+  selectedBike,
+  isOpen,
+  onClose,
+  onBooking,
+}: Props) {
   const [username, setUsername] = useState<string>("");
 
   const handleNameInput = (
@@ -20,15 +27,23 @@ export function RentingModal({ selectedBike, onClose }: Props) {
 
   const isFormValid = username !== "";
 
-  const handleFormSubmit = async () => {
-    if (!selectedBike) return;
-    await rentBike({ userName: username, bikeId: selectedBike.id });
+  const handleModalClosing = () => {
+    setUsername("");
+    onClose();
   };
 
-  if (selectedBike === null) return null;
+  const handleFormSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    if (!selectedBike) return;
+    rentBike({ userName: username, bikeId: selectedBike.id }).then(onBooking);
+    handleModalClosing();
+  };
+
+  if (!isOpen || selectedBike === null) return null;
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={handleModalClosing}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <h3>Bike renting</h3>
         <p>
@@ -56,9 +71,18 @@ export function RentingModal({ selectedBike, onClose }: Props) {
             />
           </div>
 
-          <button disabled={!isFormValid} type="submit">
-            Book
-          </button>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <button onClick={onClose} style={{ width: "180px" }}>
+              Cancel
+            </button>
+            <button
+              disabled={!isFormValid}
+              type="submit"
+              style={{ width: "180px" }}
+            >
+              Book
+            </button>
+          </div>
         </form>
       </div>
     </Modal>
