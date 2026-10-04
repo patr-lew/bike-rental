@@ -72,7 +72,11 @@ export function RentingModal({
           </div>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <button onClick={onClose} style={{ width: "180px" }}>
+            <button
+              onClick={handleModalClosing}
+              type="button"
+              style={{ width: "180px" }}
+            >
               Cancel
             </button>
             <button
