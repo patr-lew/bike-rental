@@ -5,7 +5,7 @@ export interface Bike {
   frameSize: number;
   color: string | null;
   rented: boolean;
-  rentedBy: string;
+  rentedBy: string | null;
 }
 
 export interface BikeResponse {
@@ -15,5 +15,5 @@ export interface BikeResponse {
   frameSize: number;
   color: string | null;
   rented: boolean;
-  rentedBy: string;
+  rentedBy: string | null;
 }

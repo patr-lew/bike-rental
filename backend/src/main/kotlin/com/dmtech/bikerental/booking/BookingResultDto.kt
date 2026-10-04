@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class BookingResultDto(
     val uuid: UUID,
-    val bikeID: UUID,
+    val bikeId: UUID,
     val bikeManufacturer: String,
     val bookedBy: String,
 )
