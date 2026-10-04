@@ -1,5 +1,7 @@
 package com.dmtech.bikerental.booking
 
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,20 +14,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 @RestController
 @RequestMapping("/bookings")
 class BookingController(val bookingService: BookingService) {
+    private val logger = LoggerFactory.getLogger(BookingController::class.java)
 
     @PostMapping
     fun bookABike(@RequestBody request: BookingRequestDto): ResponseEntity<BookingResultDto> {
         val (bikeId, username) = request
+        logger.info("Received request to book a bike with id {}", bikeId)
 
         val createdBooking = bookingService.bookBikeIfAvailable(bikeId, username)
-        val location = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{bookingId}")
-            .buildAndExpand(createdBooking.uuid)
-            .toUri()
 
         return ResponseEntity
-            .created(location)
+            .status(HttpStatus.CREATED)
             .body(createdBooking)
     }
 
