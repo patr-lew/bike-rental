@@ -61,7 +61,7 @@ export function Content() {
               <td className={bike.rented ? "rented-bike" : "available-bike"}>
                 {bike.rented ? "Rented" : "Available"}
               </td>
-              <td>
+              <td style={{ textAlign: "center", width: "128px" }}>
                 {bike.rented ? (
                   <button onClick={() => handleSummaryPress(bike)}>
                     Summary

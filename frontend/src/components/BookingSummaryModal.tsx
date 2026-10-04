@@ -12,7 +12,10 @@ export function BookingSummaryModal({ selectedBike, isOpen, onClose }: Props) {
   return (
     <Modal onClose={onClose}>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h3>This bike is currently rented by {selectedBike.rentedBy}!</h3>
+        <h3>
+          This {selectedBike.manufacturer} bike is currently rented by{" "}
+          {selectedBike.rentedBy}!
+        </h3>
         <p>
           The bike will be available again as soon as {selectedBike.rentedBy}{" "}
           returns it.
