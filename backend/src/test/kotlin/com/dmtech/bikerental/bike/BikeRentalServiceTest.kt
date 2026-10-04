@@ -4,7 +4,8 @@ import com.dmtech.bikerental.BikeRentalApplication
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
+import org.mockito.kotlin.whenever
+import org.mockito.kotlin.any
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
@@ -14,20 +15,33 @@ class BikeRentalServiceTest {
     @MockitoBean
     private lateinit var bikeRepository: BikeRepository
 
-    private lateinit var bikeRentalService: BikeRentalService
+    private lateinit var bikeService: BikeService
 
     @BeforeEach
     fun setUp() {
-        bikeRentalService = BikeRentalService(bikeRepository)
+        bikeService = BikeService(bikeRepository)
     }
 
     @Test
     fun `getAllBikes returns all bikes`() {
         val bikes = listOf(Bike(), Bike())
-        `when`(bikeRepository.findAll()).thenReturn(bikes)
+        val bikeOverviews = bikes.map(this::bikeAsBikeOverview)
+        whenever(bikeRepository.findAllBikesWithAvailability(any())).thenReturn(bikeOverviews)
 
-        val result = bikeRentalService.getAllBikes()
+        val result = bikeService.getAllBikes()
 
-        assertEquals(bikes, result)
+        assertEquals(bikeOverviews, result)
+    }
+
+    private fun bikeAsBikeOverview(bike: Bike): BikeOverviewDto {
+        return BikeOverviewDto(
+            uuid = bike.uuid,
+            manufacturer = bike.manufacturer,
+            rimSize = bike.rimSize,
+            frameSize = bike.frameSize,
+            color = bike.color,
+            rented = false,
+            rentedBy = null
+        )
     }
 }
