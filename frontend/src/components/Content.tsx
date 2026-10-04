@@ -48,7 +48,7 @@ export function Content() {
             <th>Frame Size</th>
             <th>Color</th>
             <th>Rented</th>
-            <th>Book me</th>
+            <th>Booking</th>
           </tr>
         </thead>
         <tbody>

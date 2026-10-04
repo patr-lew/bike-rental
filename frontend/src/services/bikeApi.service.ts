@@ -20,18 +20,26 @@ export async function getAllBikes(): Promise<Bike[]> {
     }));
   } catch (error) {
     console.error(error);
+    // here a notification about an error would be fine, but returning empty list also makes sense.
+    // the page should not crash because of a failed request.
     return [];
   }
 }
 
 export async function rentBike(
   request: BookingRequest,
-): Promise<BookingResponse | null> {
+): Promise<
+  | { success: true; bookingDetail: BookingResponse }
+  | { success: false; error: string }
+> {
   try {
     const response = await axios.post(BIKE_RENTAL_API + "/bookings", request);
-    return response.data;
+    return { bookingDetail: response.data, success: true };
   } catch (error) {
     console.error(error);
-    return null;
+    if (axios.isAxiosError(error) && error.response?.data?.title) {
+      return { error: error.response.data.title, success: false };
+    }
+    return { error: "Something went wrong", success: false };
   }
 }

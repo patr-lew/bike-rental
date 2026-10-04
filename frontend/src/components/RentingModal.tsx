@@ -17,6 +17,7 @@ export function RentingModal({
   onBooking,
 }: Props) {
   const [username, setUsername] = useState<string>("");
+  const [errorText, setErrorText] = useState<string | null>(null);
 
   const handleNameInput = (
     event: ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -29,14 +30,25 @@ export function RentingModal({
 
   const handleModalClosing = () => {
     setUsername("");
+    setErrorText(null);
     onClose();
   };
 
-  const handleFormSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
+  const handleFormSubmit: SubmitEventHandler<HTMLFormElement> = async (
+    event,
+  ) => {
     event.preventDefault();
 
     if (!selectedBike) return;
-    rentBike({ userName: username, bikeId: selectedBike.id }).then(onBooking);
+    const result = await rentBike({
+      userName: username,
+      bikeId: selectedBike.id,
+    });
+    if (!result.success) {
+      setErrorText(result.error);
+      return;
+    }
+    onBooking();
     handleModalClosing();
   };
 
@@ -70,6 +82,7 @@ export function RentingModal({
               onChange={handleNameInput}
             />
           </div>
+          {errorText && <span style={{ color: "red" }}>{errorText}</span>}
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button
