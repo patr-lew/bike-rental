@@ -115,6 +115,19 @@ class BikeRentalApiIntegrationTest {
         assertEquals(0, bookingRepository.count())
     }
 
+    @Test
+    fun `booking with blank user name returns bad request`() {
+        // given
+        val blankUserName = ""
+
+        // when
+        bookBike(bike.uuid.toString(), blankUserName)
+
+            // then
+            .andExpect(status().isBadRequest)
+        assertEquals(0, bookingRepository.count())
+    }
+
     private fun bookBike(bikeId: String, username: String): ResultActions {
         return mockMvc.perform(
             post("/bikerental/bookings")

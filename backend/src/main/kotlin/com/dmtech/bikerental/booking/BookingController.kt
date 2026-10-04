@@ -1,5 +1,6 @@
 package com.dmtech.bikerental.booking
 
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
@@ -17,7 +17,7 @@ class BookingController(val bookingService: BookingService) {
     private val logger = LoggerFactory.getLogger(BookingController::class.java)
 
     @PostMapping
-    fun bookABike(@RequestBody request: BookingRequestDto): ResponseEntity<BookingResultDto> {
+    fun bookABike(@Valid @RequestBody request: BookingRequestDto): ResponseEntity<BookingResultDto> {
         val (bikeId, username) = request
         logger.info("Received request to book a bike with id {}", bikeId)
 
